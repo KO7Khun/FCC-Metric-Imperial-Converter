@@ -1,4 +1,7 @@
 function ConvertHandler() {
+   this.toFixedIfNecessary = ( value) => {
+    return +parseFloat(value).toFixed( 5 );
+  }
 
   this.getNum = function (input) {
     let result;
@@ -47,7 +50,10 @@ function ConvertHandler() {
     let checkUnits = ['gal', 'l', 'km', 'mi', 'lbs', 'kg'].filter(x => x === unit)
     if(checkUnits.length == 0 || checkUnits.length > 1){
       return 'invalid unit'
-    } else {
+    } else if (checkUnits[0] === 'l'){
+      return 'L'
+    }
+      else {
       return checkUnits[0]
     }
   };
@@ -109,7 +115,7 @@ function ConvertHandler() {
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
     let result;
-    switch (initUnit) {
+    switch (initUnit.toLowerCase()) {
       case "gal":
         result = initNum * galToL;
         break;
@@ -130,7 +136,7 @@ function ConvertHandler() {
         break;
     }
 
-    return result;
+    return this.toFixedIfNecessary(result);
   };
 
   this.getString = function (initNum, initUnit, returnNum, returnUnit) {
